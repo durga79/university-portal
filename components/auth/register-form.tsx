@@ -65,113 +65,142 @@ export function RegisterForm() {
 
   if (success) {
     return (
-      <Card className="w-full max-w-md">
-        <CardContent className="pt-6">
-          <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-md text-center">
-            <p className="font-semibold">Registration successful!</p>
-            <p className="text-sm mt-1">Redirecting to login...</p>
+      <div className="bg-green-50 border-l-4 border-green-500 p-6 rounded-lg text-center">
+        <div className="flex justify-center mb-4">
+          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+            <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+        <h3 className="text-lg font-semibold text-green-900 mb-2">Registration Successful!</h3>
+        <p className="text-sm text-green-700">Redirecting you to login page...</p>
+      </div>
     )
   }
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle>Register</CardTitle>
-        <CardDescription>Create a new account</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-md text-sm">
-              {error}
+    <form onSubmit={handleSubmit} className="space-y-5">
+      {error && (
+        <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+              </svg>
             </div>
-          )}
-
-          <div className="space-y-2">
-            <Label htmlFor="name">Full Name</Label>
-            <Input
-              id="name"
-              type="text"
-              placeholder="John Doe"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              required
-              disabled={isLoading}
-            />
+            <div className="ml-3">
+              <p className="text-sm text-red-700">{error}</p>
+            </div>
           </div>
+        </div>
+      )}
 
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="john@example.com"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              required
-              disabled={isLoading}
-            />
-          </div>
+      <div className="space-y-2">
+        <Label htmlFor="name" className="text-sm font-medium text-gray-700">
+          Full Name
+        </Label>
+        <Input
+          id="name"
+          type="text"
+          placeholder="John Doe"
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          required
+          disabled={isLoading}
+          className="h-11 px-4 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+        />
+      </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="Minimum 8 characters"
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              required
-              disabled={isLoading}
-            />
-            <p className="text-xs text-muted-foreground">
-              Must contain uppercase, lowercase, number, and special character
-            </p>
-          </div>
+      <div className="space-y-2">
+        <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+          Email Address
+        </Label>
+        <Input
+          id="email"
+          type="email"
+          placeholder="your.email@university.edu"
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          required
+          disabled={isLoading}
+          className="h-11 px-4 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+        />
+      </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirm Password</Label>
-            <Input
-              id="confirmPassword"
-              type="password"
-              placeholder="Re-enter your password"
-              value={formData.confirmPassword}
-              onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-              required
-              disabled={isLoading}
-            />
-          </div>
+      <div className="space-y-2">
+        <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+          Password
+        </Label>
+        <Input
+          id="password"
+          type="password"
+          placeholder="Create a strong password"
+          value={formData.password}
+          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+          required
+          disabled={isLoading}
+          className="h-11 px-4 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+        />
+        <p className="text-xs text-gray-500 mt-1">
+          Must be 8+ characters with uppercase, lowercase, number & special character
+        </p>
+      </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="role">Role</Label>
-            <select
-              id="role"
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              value={formData.role}
-              onChange={(e) => setFormData({ ...formData, role: e.target.value as 'ADMIN' | 'STUDENT' })}
-              disabled={isLoading}
-            >
-              <option value="STUDENT">Student</option>
-              <option value="ADMIN">Administrator</option>
-            </select>
-          </div>
+      <div className="space-y-2">
+        <Label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700">
+          Confirm Password
+        </Label>
+        <Input
+          id="confirmPassword"
+          type="password"
+          placeholder="Re-enter your password"
+          value={formData.confirmPassword}
+          onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+          required
+          disabled={isLoading}
+          className="h-11 px-4 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+        />
+      </div>
 
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? 'Registering...' : 'Register'}
-          </Button>
+      <div className="space-y-2">
+        <Label htmlFor="role" className="text-sm font-medium text-gray-700">
+          Account Type
+        </Label>
+        <select
+          id="role"
+          className="flex h-11 w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50"
+          value={formData.role}
+          onChange={(e) => setFormData({ ...formData, role: e.target.value as 'ADMIN' | 'STUDENT' })}
+          disabled={isLoading}
+        >
+          <option value="STUDENT">Student</option>
+          <option value="ADMIN">Administrator</option>
+        </select>
+      </div>
 
-          <p className="text-center text-sm text-muted-foreground">
-            Already have an account?{' '}
-            <a href="/login" className="text-primary hover:underline">
-              Login
-            </a>
-          </p>
-        </form>
-      </CardContent>
-    </Card>
+      <Button 
+        type="submit" 
+        className="w-full h-12 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition-colors" 
+        disabled={isLoading}
+      >
+        {isLoading ? (
+          <span className="flex items-center justify-center">
+            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Creating account...
+          </span>
+        ) : (
+          'Create Account'
+        )}
+      </Button>
+
+      <p className="text-xs text-center text-gray-500 mt-4">
+        By registering, you agree to our Terms of Service and Privacy Policy
+      </p>
+    </form>
   )
 }
 
