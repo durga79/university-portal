@@ -33,6 +33,7 @@ model User {
   profile       Profile?
   enrollments   Enrollment[]
   auditLogs     AuditLog[]
+  attendance    Attendance[]
 
   @@index([email])
   @@index([role])
@@ -65,8 +66,10 @@ model Course {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   
-  enrollments   Enrollment[]
-  announcements Announcement[]
+  enrollments     Enrollment[]
+  announcements   Announcement[]
+  attendance      Attendance[]
+  courseMaterials CourseMaterial[]
 
   @@index([code])
   @@index([isActive])
@@ -121,4 +124,46 @@ model Announcement {
   @@index([isActive])
   @@index([courseId])
   @@index([createdAt])
+}
+
+model Attendance {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  date      DateTime @default(now())
+  status    String   @default("PRESENT")
+  notes     String?
+  markedBy  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, courseId, date])
+  @@index([userId])
+  @@index([courseId])
+  @@index([date])
+  @@index([status])
+}
+
+model CourseMaterial {
+  id          String   @id @default(cuid())
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  fileUrl     String
+  fileName    String
+  fileType    String
+  fileSize    Int
+  week        Int?
+  module      String?
+  uploadedBy  String
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([courseId])
+  @@index([week])
+  @@index([isActive])
 }

@@ -7,7 +7,8 @@ import { Navbar } from '@/components/layout/navbar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { BookOpen, Users, CheckCircle, XCircle } from 'lucide-react'
+import { BookOpen, Users, CheckCircle, XCircle, FileText } from 'lucide-react'
+import Link from 'next/link'
 
 interface Course {
   id: string
@@ -178,14 +179,22 @@ export default function StudentCoursesPage() {
                         )}
                       </div>
                       {enrollment && (
-                        <Button
-                          variant="destructive"
-                          size="sm"
-                          className="w-full mt-4"
-                          onClick={() => handleDrop(enrollment.id)}
-                        >
-                          Drop Course
-                        </Button>
+                        <div className="mt-4 space-y-2">
+                          <Link href={`/student/materials/${course.id}`}>
+                            <Button variant="outline" size="sm" className="w-full">
+                              <FileText className="w-4 h-4 mr-2" />
+                              View Materials
+                            </Button>
+                          </Link>
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            className="w-full"
+                            onClick={() => handleDrop(enrollment.id)}
+                          >
+                            Drop Course
+                          </Button>
+                        </div>
                       )}
                     </CardContent>
                   </Card>

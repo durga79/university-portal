@@ -55,6 +55,12 @@ export function Navbar({ user }: NavbarProps) {
                 >
                   Announcements
                 </Link>
+                <Link
+                  href="/admin/bulk-operations"
+                  className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Bulk Import
+                </Link>
               </div>
             )}
             
@@ -71,6 +77,18 @@ export function Navbar({ user }: NavbarProps) {
                   className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
                 >
                   Courses
+                </Link>
+                <Link
+                  href="/student/attendance"
+                  className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Attendance
+                </Link>
+                <Link
+                  href="/student/profile"
+                  className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Profile
                 </Link>
               </div>
             )}

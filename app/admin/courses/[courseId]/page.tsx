@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ArrowLeft, Users, BookOpen, Calendar, User as UserIcon, Mail } from 'lucide-react'
 import DropStudentButton from '@/components/admin/drop-student-button'
 import AssignGradeButton from '@/components/admin/assign-grade-button'
+import AttendanceTracker from '@/components/admin/attendance-tracker'
 
 export default async function CourseDetailsPage({
   params,
@@ -53,7 +54,7 @@ export default async function CourseDetailsPage({
       <header className="bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
-            <div>
+            <div className="flex-1">
               <Link
                 href="/admin/courses"
                 className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 mb-2"
@@ -66,16 +67,24 @@ export default async function CourseDetailsPage({
               </h1>
               <p className="text-gray-600 mt-1">{course.description}</p>
             </div>
-            <div className="text-right">
-              <div className="text-sm text-gray-600">Enrollment Status</div>
-              <div className="text-3xl font-bold text-blue-600">
-                {activeEnrollments}/{course.capacity}
+            <div className="flex items-center space-x-4">
+              <div className="text-right">
+                <div className="text-sm text-gray-600">Enrollment Status</div>
+                <div className="text-3xl font-bold text-blue-600">
+                  {activeEnrollments}/{course.capacity}
+                </div>
+                <div className="text-sm text-gray-500">
+                  {availableSeats > 0
+                    ? `${availableSeats} seats available`
+                    : 'Course Full'}
+                </div>
               </div>
-              <div className="text-sm text-gray-500">
-                {availableSeats > 0
-                  ? `${availableSeats} seats available`
-                  : 'Course Full'}
-              </div>
+              <Link
+                href={`/admin/courses/${course.id}/materials`}
+                className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors inline-block whitespace-nowrap"
+              >
+                📚 Materials
+              </Link>
             </div>
           </div>
         </div>
@@ -120,6 +129,14 @@ export default async function CourseDetailsPage({
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="mb-8">
+          <AttendanceTracker
+            courseId={course.id}
+            courseName={course.name}
+            students={course.enrollments.map((e) => e.user)}
+          />
         </div>
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
