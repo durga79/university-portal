@@ -1,87 +1,67 @@
 import { RegisterForm } from '@/components/auth/register-form'
 import Link from 'next/link'
-import { GraduationCap, UserPlus, ArrowLeft, CheckCircle } from 'lucide-react'
+import { GraduationCap, ArrowLeft } from 'lucide-react'
 
 export default function RegisterPage() {
   return (
-    <div className="min-h-screen flex">
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-indigo-900 via-purple-900 to-blue-900 p-12 flex-col justify-between relative overflow-hidden">
-        <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:30px_30px]"></div>
-        <div className="relative">
-          <Link href="/" className="inline-flex items-center text-white mb-12 hover:text-blue-200 transition-colors">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Home
-          </Link>
-          <div className="flex items-center space-x-3 mb-8">
-            <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-lg">
-              <GraduationCap className="w-8 h-8 text-indigo-900" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-white">University Portal</h1>
-              <p className="text-purple-200 text-sm">Student Management System</p>
-            </div>
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <header className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+              <GraduationCap className="w-8 h-8 text-blue-600" />
+              <div>
+                <h1 className="font-bold text-lg text-gray-900">University Portal</h1>
+                <p className="text-xs text-gray-500">Student Information System</p>
+              </div>
+            </Link>
+            <Link href="/" className="text-gray-600 hover:text-gray-900 text-sm flex items-center gap-1">
+              <ArrowLeft className="w-4 h-4" />
+              Back to Home
+            </Link>
           </div>
         </div>
-        
-        <div className="relative space-y-8">
-          <div>
-            <h2 className="text-3xl font-bold text-white mb-4">
-              Join Our Community
-            </h2>
-            <p className="text-purple-100 text-lg mb-6">
-              Create your account and start your academic journey with us today.
-            </p>
+      </header>
+
+      <main className="flex-1 flex items-center justify-center p-6">
+        <div className="w-full max-w-md">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Student Registration</h2>
+            <p className="text-gray-600">Create your account to access the portal</p>
           </div>
           
-          <div className="space-y-4">
-            {[
-              'Access to all available courses',
-              'Real-time enrollment tracking',
-              'Personalized student dashboard',
-              'Secure account management',
-              '24/7 portal access',
-            ].map((benefit) => (
-              <div key={benefit} className="flex items-center gap-3">
-                <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
-                <span className="text-purple-100">{benefit}</span>
-              </div>
-            ))}
+          <div className="bg-white rounded-lg shadow-md p-8 border border-gray-200">
+            <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <p className="text-sm text-blue-800">
+                <strong>Note:</strong> Please use your official university email address for registration.
+              </p>
+            </div>
+            
+            <RegisterForm />
+            
+            <div className="mt-6 pt-6 border-t border-gray-200">
+              <p className="text-center text-sm text-gray-600">
+                Already registered?{' '}
+                <Link href="/login" className="text-blue-600 font-medium hover:text-blue-700">
+                  Sign in here
+                </Link>
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-6 text-center">
+            <a href="#" className="text-sm text-gray-600 hover:text-gray-900">
+              Need help with registration?
+            </a>
           </div>
         </div>
+      </main>
 
-        <div className="relative text-purple-200 text-sm">
+      <footer className="bg-white border-t border-gray-200 py-6">
+        <div className="max-w-7xl mx-auto px-4 text-center text-sm text-gray-600">
           <p>&copy; 2025 University Portal. All rights reserved.</p>
         </div>
-      </div>
-
-      <div className="flex-1 flex items-center justify-center p-8 bg-gray-50">
-        <div className="w-full max-w-md">
-          <div className="lg:hidden text-center mb-8">
-            <div className="flex justify-center mb-4">
-              <div className="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center">
-                <UserPlus className="w-7 h-7 text-white" />
-              </div>
-            </div>
-            <h1 className="text-2xl font-bold text-gray-900">Create Account</h1>
-            <p className="text-gray-600 text-sm">Join University Portal</p>
-          </div>
-          
-          <div className="bg-white rounded-2xl shadow-xl p-8">
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Register</h2>
-              <p className="text-gray-600">Create your account to get started.</p>
-            </div>
-            <RegisterForm />
-          </div>
-
-          <p className="text-center mt-6 text-sm text-gray-600">
-            Already have an account?{' '}
-            <Link href="/login" className="text-indigo-600 font-semibold hover:text-indigo-700">
-              Sign in here
-            </Link>
-          </p>
-        </div>
-      </div>
+      </footer>
     </div>
   )
 }
