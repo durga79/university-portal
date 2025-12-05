@@ -65,7 +65,7 @@ export function RegisterForm() {
 
   if (success) {
     return (
-      <div className="bg-green-50 border-l-4 border-green-500 p-6 rounded-lg text-center">
+      <div className="bg-green-50 border-l-4 border-green-500 p-8 rounded-r-xl text-center">
         <div className="flex justify-center mb-4">
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
             <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -73,34 +73,34 @@ export function RegisterForm() {
             </svg>
           </div>
         </div>
-        <h3 className="text-lg font-semibold text-green-900 mb-2">Registration Successful!</h3>
+        <h3 className="text-xl font-bold text-green-900 mb-2">Registration Successful!</h3>
         <p className="text-sm text-green-700">Redirecting you to login page...</p>
       </div>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-4">
       {error && (
-        <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded">
-          <div className="flex">
+        <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+          <div className="flex items-start">
             <div className="flex-shrink-0">
               <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
               </svg>
             </div>
             <div className="ml-3">
-              <p className="text-sm text-red-700">{error}</p>
+              <p className="text-sm font-medium text-red-800">{error}</p>
             </div>
           </div>
         </div>
       )}
 
       <div className="space-y-2">
-        <Label htmlFor="name" className="text-sm font-medium text-gray-700">
+        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
           Full Name
-        </Label>
-        <Input
+        </label>
+        <input
           id="name"
           type="text"
           placeholder="John Doe"
@@ -108,15 +108,15 @@ export function RegisterForm() {
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           required
           disabled={isLoading}
-          className="h-11 px-4 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+          className="w-full h-11 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors disabled:bg-gray-50"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="email" className="text-sm font-medium text-gray-700">
-          Email Address
-        </Label>
-        <Input
+        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          University Email Address
+        </label>
+        <input
           id="email"
           type="email"
           placeholder="your.email@university.edu"
@@ -124,15 +124,15 @@ export function RegisterForm() {
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           required
           disabled={isLoading}
-          className="h-11 px-4 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+          className="w-full h-11 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors disabled:bg-gray-50"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
           Password
-        </Label>
-        <Input
+        </label>
+        <input
           id="password"
           type="password"
           placeholder="Create a strong password"
@@ -140,18 +140,18 @@ export function RegisterForm() {
           onChange={(e) => setFormData({ ...formData, password: e.target.value })}
           required
           disabled={isLoading}
-          className="h-11 px-4 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+          className="w-full h-11 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors disabled:bg-gray-50"
         />
-        <p className="text-xs text-gray-500 mt-1">
-          Must be 8+ characters with uppercase, lowercase, number & special character
+        <p className="text-xs text-gray-500">
+          Must be 8+ chars with uppercase, lowercase, number & special character
         </p>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700">
+        <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
           Confirm Password
-        </Label>
-        <Input
+        </label>
+        <input
           id="confirmPassword"
           type="password"
           placeholder="Re-enter your password"
@@ -159,17 +159,17 @@ export function RegisterForm() {
           onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
           required
           disabled={isLoading}
-          className="h-11 px-4 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+          className="w-full h-11 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors disabled:bg-gray-50"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="role" className="text-sm font-medium text-gray-700">
+        <label htmlFor="role" className="block text-sm font-medium text-gray-700">
           Account Type
-        </Label>
+        </label>
         <select
           id="role"
-          className="flex h-11 w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50"
+          className="w-full h-11 px-4 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors disabled:opacity-50"
           value={formData.role}
           onChange={(e) => setFormData({ ...formData, role: e.target.value as 'ADMIN' | 'STUDENT' })}
           disabled={isLoading}
@@ -179,10 +179,10 @@ export function RegisterForm() {
         </select>
       </div>
 
-      <Button 
+      <button 
         type="submit" 
-        className="w-full h-12 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition-colors" 
         disabled={isLoading}
+        className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-md"
       >
         {isLoading ? (
           <span className="flex items-center justify-center">
@@ -195,9 +195,9 @@ export function RegisterForm() {
         ) : (
           'Create Account'
         )}
-      </Button>
+      </button>
 
-      <p className="text-xs text-center text-gray-500 mt-4">
+      <p className="text-xs text-center text-gray-500 pt-2">
         By registering, you agree to our Terms of Service and Privacy Policy
       </p>
     </form>

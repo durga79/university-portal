@@ -43,27 +43,27 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-5">
       {error && (
-        <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded">
-          <div className="flex">
+        <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+          <div className="flex items-start">
             <div className="flex-shrink-0">
               <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
               </svg>
             </div>
             <div className="ml-3">
-              <p className="text-sm text-red-700">{error}</p>
+              <p className="text-sm font-medium text-red-800">{error}</p>
             </div>
           </div>
         </div>
       )}
       
       <div className="space-y-2">
-        <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
           Email Address
-        </Label>
-        <Input
+        </label>
+        <input
           id="email"
           type="email"
           placeholder="your.email@university.edu"
@@ -71,20 +71,20 @@ export function LoginForm() {
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           required
           disabled={isLoading}
-          className="h-12 px-4 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+          className="w-full h-11 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors disabled:bg-gray-50 disabled:text-gray-500"
         />
       </div>
 
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
             Password
-          </Label>
-          <a href="#" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+          </label>
+          <a href="#" className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors">
             Forgot password?
           </a>
         </div>
-        <Input
+        <input
           id="password"
           type="password"
           placeholder="Enter your password"
@@ -92,7 +92,7 @@ export function LoginForm() {
           onChange={(e) => setFormData({ ...formData, password: e.target.value })}
           required
           disabled={isLoading}
-          className="h-12 px-4 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+          className="w-full h-11 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors disabled:bg-gray-50 disabled:text-gray-500"
         />
       </div>
 
@@ -104,14 +104,14 @@ export function LoginForm() {
           className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
         />
         <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
-          Remember me
+          Remember me for 30 days
         </label>
       </div>
 
-      <Button 
+      <button 
         type="submit" 
-        className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition-colors" 
         disabled={isLoading}
+        className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-md"
       >
         {isLoading ? (
           <span className="flex items-center justify-center">
@@ -124,7 +124,7 @@ export function LoginForm() {
         ) : (
           'Sign In'
         )}
-      </Button>
+      </button>
     </form>
   )
 }
