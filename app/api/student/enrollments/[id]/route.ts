@@ -5,7 +5,7 @@ import { prisma } from '@/lib/db'
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -14,8 +14,9 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { id } = await params
     const enrollment = await prisma.enrollment.findUnique({
-      where: { id: params.id },
+      where: { id },
     })
 
     if (!enrollment || enrollment.userId !== session.user.id) {
@@ -26,7 +27,7 @@ export async function DELETE(
     }
 
     await prisma.enrollment.update({
-      where: { id: params.id },
+      where: { id },
       data: { status: 'DROPPED' },
     })
 

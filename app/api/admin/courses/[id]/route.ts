@@ -7,7 +7,7 @@ import { createAuditLog } from '@/lib/audit'
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -16,8 +16,9 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { id } = await params
     const course = await prisma.course.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         enrollments: {
           include: {
@@ -49,7 +50,7 @@ export async function GET(
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -58,8 +59,9 @@ export async function PATCH(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { id } = await params
     const body = await request.json()
-    const validatedFields = updateCourseSchema.safeParse({ ...body, id: params.id })
+    const validatedFields = updateCourseSchema.safeParse({ ...body, id })
 
     if (!validatedFields.success) {
       return NextResponse.json(
@@ -68,10 +70,10 @@ export async function PATCH(
       )
     }
 
-    const { id, ...updateData } = validatedFields.data
+    const { id: validatedId, ...updateData } = validatedFields.data
 
     const course = await prisma.course.update({
-      where: { id: params.id },
+      where: { id },
       data: updateData,
     })
 
@@ -95,7 +97,7 @@ export async function PATCH(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -104,8 +106,9 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { id } = await params
     const course = await prisma.course.findUnique({
-      where: { id: params.id },
+      where: { id },
     })
 
     if (!course) {
@@ -113,14 +116,14 @@ export async function DELETE(
     }
 
     await prisma.course.delete({
-      where: { id: params.id },
+      where: { id },
     })
 
     await createAuditLog(
       session.user.id,
       'DELETE',
       'COURSE',
-      params.id,
+      id,
       `Deleted course: ${course.code}`
     )
 

@@ -6,7 +6,7 @@ import { createAuditLog } from '@/lib/audit'
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -15,8 +15,9 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { id } = await params
     const student = await prisma.user.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         profile: true,
         enrollments: {
@@ -43,7 +44,7 @@ export async function GET(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -52,8 +53,9 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { id } = await params
     const student = await prisma.user.findUnique({
-      where: { id: params.id },
+      where: { id },
     })
 
     if (!student || student.role !== 'STUDENT') {
@@ -61,14 +63,14 @@ export async function DELETE(
     }
 
     await prisma.user.delete({
-      where: { id: params.id },
+      where: { id },
     })
 
     await createAuditLog(
       session.user.id,
       'DELETE',
       'STUDENT',
-      params.id,
+      id,
       `Deleted student: ${student.email}`
     )
 
