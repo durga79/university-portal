@@ -11,7 +11,7 @@ import AttendanceTracker from '@/components/admin/attendance-tracker'
 export default async function CourseDetailsPage({
   params,
 }: {
-  params: Promise<{ courseId: string }>
+  params: Promise<{ id: string }>
 }) {
   const session = await getServerSession(authOptions)
 
@@ -19,10 +19,10 @@ export default async function CourseDetailsPage({
     redirect('/unauthorized')
   }
 
-  const { courseId } = await params
+  const { id } = await params
 
   const course = await prisma.course.findUnique({
-    where: { id: courseId },
+    where: { id },
     include: {
       enrollments: {
         where: {

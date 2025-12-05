@@ -3,7 +3,7 @@ import { prisma } from '@/lib/db'
 
 export async function GET(
   request: Request,
-  { params }: { params: Promise<{ courseId: string; materialId: string }> }
+  { params }: { params: Promise<{ id: string; materialId: string }> }
 ) {
   try {
     const { materialId } = await params

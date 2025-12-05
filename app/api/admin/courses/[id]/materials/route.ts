@@ -17,7 +17,7 @@ const materialSchema = z.object({
 
 export async function GET(
   request: Request,
-  { params }: { params: Promise<{ courseId: string }> }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -26,7 +26,7 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { courseId } = await params
+    const { id: courseId } = await params
 
     const course = await prisma.course.findUnique({
       where: { id: courseId },
@@ -64,7 +64,7 @@ export async function GET(
 
 export async function POST(
   request: Request,
-  { params }: { params: Promise<{ courseId: string }> }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -73,7 +73,7 @@ export async function POST(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { courseId } = await params
+    const { id: courseId } = await params
     const body = await request.json()
     const validation = materialSchema.safeParse(body)
 
