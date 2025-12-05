@@ -5,7 +5,7 @@ import { prisma } from '@/lib/db'
 import { Navbar } from '@/components/layout/navbar'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { BookOpen, CheckCircle, Clock, GraduationCap } from 'lucide-react'
+import { BookOpen, CheckCircle, Clock, GraduationCap, Megaphone, AlertCircle, Info } from 'lucide-react'
 
 export default async function StudentDashboard() {
   const session = await getServerSession(authOptions)
@@ -14,7 +14,14 @@ export default async function StudentDashboard() {
     redirect('/unauthorized')
   }
 
-  const [profile, enrollments, availableCourses] = await Promise.all([
+  const userEnrollments = await prisma.enrollment.findMany({
+    where: { userId: session.user.id, status: 'ACTIVE' },
+    select: { courseId: true },
+  })
+
+  const enrolledCourseIds = userEnrollments.map((e) => e.courseId)
+
+  const [profile, enrollments, availableCourses, announcements] = await Promise.all([
     prisma.profile.findUnique({
       where: { userId: session.user.id },
     }),
@@ -29,6 +36,27 @@ export default async function StudentDashboard() {
       orderBy: { enrolledAt: 'desc' },
     }),
     prisma.course.count({ where: { isActive: true } }),
+    prisma.announcement.findMany({
+      where: {
+        isActive: true,
+        OR: [
+          { courseId: null },
+          { courseId: { in: enrolledCourseIds } },
+        ],
+      },
+      include: {
+        course: {
+          select: {
+            code: true,
+            name: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 5,
+    }),
   ])
 
   const totalCredits = enrollments.reduce((sum, e) => sum + e.course.credits, 0)
@@ -94,6 +122,65 @@ export default async function StudentDashboard() {
           })}
         </div>
 
+        {announcements.length > 0 && (
+          <Card className="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
+            <CardHeader>
+              <div className="flex items-center space-x-2">
+                <Megaphone className="h-6 w-6 text-blue-600" />
+                <CardTitle>Announcements</CardTitle>
+              </div>
+              <CardDescription>Latest updates and notices</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {announcements.map((announcement) => (
+                  <div
+                    key={announcement.id}
+                    className={`p-4 rounded-lg ${
+                      announcement.priority === 'URGENT'
+                        ? 'bg-red-50 border border-red-200'
+                        : announcement.priority === 'HIGH'
+                        ? 'bg-orange-50 border border-orange-200'
+                        : 'bg-white border border-gray-200'
+                    }`}
+                  >
+                    <div className="flex items-start space-x-3">
+                      {announcement.priority === 'URGENT' && (
+                        <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
+                      )}
+                      {announcement.priority === 'HIGH' && (
+                        <AlertCircle className="h-5 w-5 text-orange-500 flex-shrink-0 mt-0.5" />
+                      )}
+                      {announcement.priority === 'NORMAL' && (
+                        <Info className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
+                      )}
+                      <div className="flex-1">
+                        <div className="flex items-start justify-between">
+                          <h4 className="font-semibold text-gray-900">
+                            {announcement.title}
+                          </h4>
+                          {announcement.course && (
+                            <Badge variant="secondary" className="ml-2 text-xs">
+                              {announcement.course.code}
+                            </Badge>
+                          )}
+                        </div>
+                        <p className="text-sm text-gray-700 mt-1 whitespace-pre-wrap">
+                          {announcement.content}
+                        </p>
+                        <p className="text-xs text-gray-500 mt-2">
+                          {new Date(announcement.createdAt).toLocaleDateString()} at{' '}
+                          {new Date(announcement.createdAt).toLocaleTimeString()}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         <Card>
           <CardHeader>
             <CardTitle>My Enrolled Courses</CardTitle>
@@ -127,15 +214,23 @@ export default async function StudentDashboard() {
                         {enrollment.course.description}
                       </p>
                     )}
-                    <div className="flex items-center justify-between text-xs text-gray-500">
-                      <span>{enrollment.course.credits} Credits</span>
-                      {enrollment.course.instructor && (
-                        <span>Instructor: {enrollment.course.instructor}</span>
+                    <div className="space-y-2 mt-3">
+                      <div className="flex items-center justify-between text-xs text-gray-500">
+                        <span>{enrollment.course.credits} Credits</span>
+                        {enrollment.course.instructor && (
+                          <span>Instructor: {enrollment.course.instructor}</span>
+                        )}
+                      </div>
+                      {enrollment.course.schedule && (
+                        <p className="text-xs text-gray-500">{enrollment.course.schedule}</p>
+                      )}
+                      {enrollment.grade && (
+                        <div className="pt-2 border-t border-gray-200">
+                          <span className="text-xs text-gray-600">Grade: </span>
+                          <span className="text-sm font-bold text-green-600">{enrollment.grade}</span>
+                        </div>
                       )}
                     </div>
-                    {enrollment.course.schedule && (
-                      <p className="text-xs text-gray-500 mt-2">{enrollment.course.schedule}</p>
-                    )}
                   </div>
                 ))}
               </div>

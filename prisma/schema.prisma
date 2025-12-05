@@ -65,7 +65,8 @@ model Course {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   
-  enrollments Enrollment[]
+  enrollments   Enrollment[]
+  announcements Announcement[]
 
   @@index([code])
   @@index([isActive])
@@ -103,5 +104,21 @@ model AuditLog {
   @@index([userId])
   @@index([action])
   @@index([entity])
+  @@index([createdAt])
+}
+
+model Announcement {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  priority  String   @default("NORMAL")
+  isActive  Boolean  @default(true)
+  courseId  String?
+  course    Course?  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([courseId])
   @@index([createdAt])
 }

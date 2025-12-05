@@ -10,7 +10,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
-import { Plus, Edit, Trash2, X } from 'lucide-react'
+import { Plus, Edit, Trash2, X, Eye } from 'lucide-react'
+import Link from 'next/link'
 
 interface Course {
   id: string
@@ -290,10 +291,21 @@ export default function AdminCoursesPage() {
                 {courses.map((course) => (
                   <TableRow key={course.id}>
                     <TableCell className="font-medium">{course.code}</TableCell>
-                    <TableCell>{course.name}</TableCell>
+                    <TableCell>
+                      <Link 
+                        href={`/admin/courses/${course.id}`}
+                        className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
+                      >
+                        {course.name}
+                      </Link>
+                    </TableCell>
                     <TableCell>{course.credits}</TableCell>
                     <TableCell>{course.capacity}</TableCell>
-                    <TableCell>{course._count.enrollments}</TableCell>
+                    <TableCell>
+                      <span className={course._count.enrollments >= course.capacity ? 'text-red-600 font-bold' : 'text-gray-900'}>
+                        {course._count.enrollments}/{course.capacity}
+                      </span>
+                    </TableCell>
                     <TableCell>
                       <Badge variant={course.isActive ? 'success' : 'secondary'}>
                         {course.isActive ? 'Active' : 'Inactive'}
@@ -301,10 +313,16 @@ export default function AdminCoursesPage() {
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-2">
+                        <Link href={`/admin/courses/${course.id}`}>
+                          <Button variant="ghost" size="icon" title="View Details">
+                            <Eye className="w-4 h-4" />
+                          </Button>
+                        </Link>
                         <Button
                           variant="ghost"
                           size="icon"
                           onClick={() => handleEdit(course)}
+                          title="Edit Course"
                         >
                           <Edit className="w-4 h-4" />
                         </Button>
@@ -312,6 +330,7 @@ export default function AdminCoursesPage() {
                           variant="ghost"
                           size="icon"
                           onClick={() => handleDelete(course.id)}
+                          title="Delete Course"
                         >
                           <Trash2 className="w-4 h-4 text-red-500" />
                         </Button>

@@ -49,6 +49,12 @@ export function Navbar({ user }: NavbarProps) {
                 >
                   Students
                 </Link>
+                <Link
+                  href="/admin/announcements"
+                  className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Announcements
+                </Link>
               </div>
             )}
             
