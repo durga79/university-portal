@@ -1,322 +1,470 @@
-# Student Management System
+# Atlas University Student Portal
 
-A secure, role-based student management web application built with Next.js, TypeScript, Prisma, and Neon PostgreSQL. This project demonstrates enterprise-level security practices and follows secure software development principles.
+## 🎓 Project Overview
 
-## 🎯 Project Overview
+**Atlas University Student Portal** is a secure, role-based web application designed for managing student information, course enrollments, attendance tracking, and academic resources. This project demonstrates enterprise-level security practices in modern web application development using Next.js 16, TypeScript, and PostgreSQL.
 
-This application provides a comprehensive platform for managing students, courses, and enrollments with strict role-based access control. It features separate dashboards for administrators and students, each with tailored functionalities and permissions.
+**Project Type**: Option B (Custom Development)  
+**Technology Stack**: Next.js 16, React 19, TypeScript, Prisma ORM, PostgreSQL (Neon), NextAuth.js  
+**Security Focus**: Authentication, Authorization, Input Validation, Session Management, Audit Logging
 
-### Key Features
+---
 
-- **Secure Authentication**: Password hashing with bcrypt, session management, and account lockout protection
-- **Role-Based Access Control (RBAC)**: Separate dashboards for admins and students with middleware protection
-- **Course Management**: Full CRUD operations for administrators
-- **Student Enrollment**: Browse courses, enroll, and manage enrollments
-- **Audit Logging**: Track all administrative actions
-- **Modern UI/UX**: Responsive design with Tailwind CSS and custom components
+## 🎯 Features and Security Objectives
 
-## 🔒 Security Features
+### Core Functionalities
+- **User Authentication & Authorization** - Secure login with role-based access control (RBAC)
+- **Student Management** - CRUD operations for student profiles and enrollment
+- **Course Management** - Create, update, and manage courses with capacity limits
+- **Attendance Tracking** - Mark and monitor student attendance with percentage alerts
+- **Course Materials Library** - Upload/download educational resources (PDFs, slides, videos)
+- **Announcements System** - Broadcast important updates to students
+- **Bulk Operations** - CSV-based student import for efficiency
+- **Audit Logging** - Track all administrative actions for accountability
 
-### 1. Authentication & Authorization
-- **Password Security**: Bcrypt hashing with 12 salt rounds
-- **Strong Password Policy**: Enforces uppercase, lowercase, numbers, and special characters
-- **Session Management**: JWT-based sessions with secure httpOnly cookies
-- **Account Lockout**: Automatic lockout after 5 failed login attempts (15-minute duration)
-- **Role-Based Middleware**: Protects routes based on user roles (ADMIN/STUDENT)
+### Security Improvements Implemented
 
-### 2. Input Validation & Sanitization
-- **Zod Schema Validation**: Server-side validation for all inputs
-- **SQL Injection Prevention**: Prisma ORM with parameterized queries
-- **XSS Protection**: React auto-escaping and input sanitization
-- **CSRF Protection**: Next.js built-in CSRF token validation
+#### 1. **Authentication Security**
+- ✅ Secure password hashing using bcrypt (12 rounds)
+- ✅ JWT-based session management with httpOnly cookies
+- ✅ Password strength requirements (min 8 chars)
+- ✅ Account lockout after failed login attempts
+- ✅ Secure session timeout and refresh mechanisms
 
-### 3. Data Protection
-- **Secure Database Connection**: SSL-enabled Neon PostgreSQL
-- **Audit Logging**: Comprehensive logging of admin actions with timestamps
-- **Data Validation**: Type-safe operations with TypeScript and Prisma
+#### 2. **Authorization & Access Control**
+- ✅ Role-Based Access Control (RBAC) - ADMIN and STUDENT roles
+- ✅ Middleware-based route protection
+- ✅ API endpoint authorization checks
+- ✅ Removed public admin registration (admins can only be created by other admins)
+- ✅ Principle of least privilege enforcement
 
-### 4. Additional Security Measures
-- **No Sensitive Data Exposure**: Generic error messages to users
-- **Secure Headers**: Next.js security headers configuration
-- **Environment Variables**: Secrets managed through .env files
-- **Database Migrations**: Version-controlled schema changes
+#### 3. **Input Validation & Data Sanitization**
+- ✅ Zod schema validation for all user inputs
+- ✅ Server-side validation on all API routes
+- ✅ React Hook Form with client-side validation
+- ✅ File upload validation (type, size limits)
+- ✅ Email format validation
 
-## 🛠 Technology Stack
+#### 4. **SQL Injection Prevention**
+- ✅ Prisma ORM with parameterized queries
+- ✅ No raw SQL queries exposed to user input
+- ✅ Type-safe database operations
 
-### Frontend
-- **Next.js 15**: React framework with App Router
-- **TypeScript**: Type-safe development
-- **Tailwind CSS**: Utility-first CSS framework
-- **Radix UI**: Accessible component primitives
-- **Lucide React**: Icon library
+#### 5. **XSS (Cross-Site Scripting) Prevention**
+- ✅ React's automatic output escaping
+- ✅ Content Security Policy (CSP) headers
+- ✅ Sanitized user-generated content
+- ✅ No `dangerouslySetInnerHTML` without sanitization
 
-### Backend
-- **Next.js API Routes**: Server-side endpoints
-- **NextAuth.js**: Authentication solution
-- **Prisma ORM**: Type-safe database client
-- **Neon PostgreSQL**: Serverless PostgreSQL database
+#### 6. **CSRF Protection**
+- ✅ Next.js built-in CSRF protection for API routes
+- ✅ SameSite cookie attribute
+- ✅ Token-based API authentication
 
-### Security & Validation
-- **Zod**: Schema validation
-- **bcryptjs**: Password hashing
-- **JWT**: Token-based authentication
+#### 7. **Session Management**
+- ✅ Secure session storage with JWT
+- ✅ httpOnly and secure cookie flags
+- ✅ Session expiration and renewal
+- ✅ Logout functionality with session cleanup
 
-## 📋 Requirements Met
+#### 8. **Audit Logging**
+- ✅ Database-level audit logs for all admin actions
+- ✅ User tracking (who, what, when)
+- ✅ IP address and user agent logging
+- ✅ Action details stored for compliance
 
-### Functional Requirements
-✅ **CRUD Operations**: Complete Create, Read, Update, Delete for courses and students  
-✅ **Multi-layered Architecture**: Separation of database, business logic, and presentation  
-✅ **Multiple User Roles**: Admin and Student roles with different privileges  
-✅ **User Registration & Login**: Separate flows for both roles  
-✅ **Course Enrollment**: Students can browse and enroll in courses  
+#### 9. **Error Handling**
+- ✅ Generic error messages to prevent information disclosure
+- ✅ Detailed logging for debugging (server-side only)
+- ✅ User-friendly error pages
+- ✅ No stack traces exposed in production
 
-### Non-Functional Requirements
-✅ **Security**: Multiple layers of security controls  
-✅ **Usability**: Clean, intuitive interface  
-✅ **Maintainability**: Modular code structure  
-✅ **Scalability**: Serverless database and efficient queries  
+#### 10. **Rate Limiting**
+- ✅ Login attempt rate limiting
+- ✅ Account lockout mechanism
+- ✅ Protection against brute force attacks
 
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js 18+ 
-- npm or pnpm
-- Neon PostgreSQL database (or any PostgreSQL instance)
-
-### Installation
-
-1. **Clone the repository**
-```bash
-git clone <your-repo-url>
-cd student-management-system
-```
-
-2. **Install dependencies**
-```bash
-npm install
-```
-
-3. **Set up environment variables**
-```bash
-cp .env.example .env
-```
-
-Edit `.env` with your configuration:
-```env
-DATABASE_URL="your-neon-database-url"
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your-secret-key-minimum-32-characters
-NODE_ENV=development
-```
-
-4. **Run database migrations**
-```bash
-npx prisma migrate dev
-```
-
-5. **Generate Prisma Client**
-```bash
-npx prisma generate
-```
-
-6. **Start the development server**
-```bash
-npm run dev
-```
-
-Visit `http://localhost:3000` to see the application.
+---
 
 ## 📁 Project Structure
 
 ```
-student-management-system/
+atlas-university-portal/
 ├── app/                          # Next.js App Router
 │   ├── api/                      # API routes
-│   │   ├── auth/                 # NextAuth endpoints
-│   │   ├── register/             # User registration
-│   │   ├── admin/                # Admin-only endpoints
-│   │   │   ├── courses/          # Course CRUD
+│   │   ├── auth/                 # NextAuth.js authentication
+│   │   ├── register/             # User registration endpoint
+│   │   ├── admin/                # Admin-only API routes
+│   │   │   ├── announcements/    # Announcement management
+│   │   │   ├── attendance/       # Attendance tracking
+│   │   │   ├── bulk-import/      # CSV student import
+│   │   │   ├── courses/          # Course management
+│   │   │   ├── create-user/      # Admin user creation
 │   │   │   └── students/         # Student management
-│   │   └── student/              # Student-only endpoints
-│   │       ├── courses/          # Browse courses
-│   │       └── enrollments/      # Enrollment operations
-│   ├── admin/                    # Admin dashboard pages
+│   │   └── student/              # Student API routes
+│   │       ├── change-password/  # Password change
+│   │       ├── materials/        # Material downloads
+│   │       └── profile/          # Profile updates
+│   ├── admin/                    # Admin pages
+│   │   ├── announcements/        # Announcement UI
+│   │   ├── bulk-operations/      # CSV import UI
 │   │   ├── courses/              # Course management UI
-│   │   └── students/             # Student management UI
-│   ├── student/                  # Student dashboard pages
-│   │   ├── dashboard/            # Student home
-│   │   └── courses/              # Course browsing & enrollment
+│   │   ├── students/             # Student list UI
+│   │   └── users/                # User management UI
+│   ├── student/                  # Student pages
+│   │   ├── attendance/           # View attendance
+│   │   ├── courses/              # View & enroll courses
+│   │   ├── materials/            # Access materials
+│   │   └── profile/              # Edit profile
 │   ├── login/                    # Login page
-│   ├── register/                 # Registration page
-│   └── layout.tsx                # Root layout with auth provider
-├── components/                   # Reusable components
-│   ├── auth/                     # Authentication components
-│   ├── layout/                   # Layout components (Navbar)
-│   └── ui/                       # UI components (Button, Card, etc.)
+│   ├── register/                 # Student registration
+│   ├── dashboard/                # Role-based dashboard
+│   └── page.tsx                  # Landing page
+├── components/                   # React components
+│   ├── admin/                    # Admin-specific components
+│   ├── auth/                     # Authentication forms
+│   ├── layout/                   # Layout components (Navbar, Footer)
+│   ├── student/                  # Student-specific components
+│   └── ui/                       # Reusable UI components (shadcn/ui)
 ├── lib/                          # Utility libraries
 │   ├── auth.ts                   # NextAuth configuration
 │   ├── db.ts                     # Prisma client
 │   ├── validators.ts             # Zod schemas
-│   ├── audit.ts                  # Audit logging
-│   └── utils.ts                  # Helper functions
+│   ├── audit.ts                  # Audit logging utilities
+│   └── middleware.ts             # Authentication middleware
 ├── prisma/                       # Database
 │   ├── schema.prisma             # Database schema
-│   └── migrations/               # Migration history
-├── middleware.ts                 # Route protection middleware
-└── types/                        # TypeScript type definitions
+│   └── seed.ts                   # Seed first admin user
+├── tests/                        # Testing (SAST & Functional)
+│   ├── security/                 # Security test cases
+│   └── functional/               # Functional test cases
+├── .env                          # Environment variables
+├── ADMIN_SETUP.md               # Admin setup guide
+├── SECURITY.md                  # Security documentation
+└── README.md                    # This file
 ```
-
-## 👥 User Roles & Permissions
-
-### Administrator
-- ✅ View system statistics
-- ✅ Create, edit, delete courses
-- ✅ View all students
-- ✅ Delete student accounts
-- ✅ View audit logs
-- ❌ Cannot enroll in courses
-
-### Student
-- ✅ View personal dashboard
-- ✅ Browse available courses
-- ✅ Enroll in courses (if seats available)
-- ✅ Drop enrolled courses
-- ✅ View enrollment history
-- ❌ Cannot access admin functions
-
-## 🧪 Testing
-
-### Security Testing Performed
-
-1. **SQL Injection Testing**: Tested with malicious input in all forms - prevented by Prisma ORM
-2. **XSS Testing**: Attempted script injection in course descriptions - prevented by React escaping
-3. **CSRF Testing**: Verified CSRF token validation on all POST/PUT/DELETE requests
-4. **Authentication Testing**: Tested password validation, login attempts, session management
-5. **Authorization Testing**: Attempted to access admin routes as student - blocked by middleware
-6. **Input Validation**: Tested edge cases for all form inputs - validated by Zod schemas
-
-### Functional Testing
-
-- ✅ User registration (Admin & Student)
-- ✅ User login with correct/incorrect credentials
-- ✅ Account lockout after failed attempts
-- ✅ Course creation, editing, deletion (Admin)
-- ✅ Student enrollment and dropping courses
-- ✅ Dashboard data display
-- ✅ Role-based route protection
-
-## 🔐 Security Implementation Details
-
-### Password Security
-```typescript
-// Password hashing with bcrypt (12 rounds)
-const hashedPassword = await bcrypt.hash(password, 12)
-
-// Password validation requirements
-- Minimum 8 characters
-- At least 1 uppercase letter
-- At least 1 lowercase letter
-- At least 1 number
-- At least 1 special character
-```
-
-### SQL Injection Prevention
-```typescript
-// Using Prisma ORM - all queries are parameterized
-const user = await prisma.user.findUnique({
-  where: { email }  // Safe from SQL injection
-})
-```
-
-### CSRF Protection
-```typescript
-// NextAuth.js automatically includes CSRF tokens
-// All mutations require valid CSRF token
-```
-
-### Role-Based Access Control
-```typescript
-// Middleware protects routes by role
-export default withAuth(
-  function middleware(req) {
-    if (path.startsWith('/admin') && token?.role !== 'ADMIN') {
-      return NextResponse.redirect('/unauthorized')
-    }
-  }
-)
-```
-
-## 📊 Database Schema
-
-### Key Models
-
-**User**: Stores user credentials and metadata
-- Password hashing with bcrypt
-- Login attempt tracking
-- Account lockout mechanism
-
-**Profile**: Extended user information
-- Student ID generation
-- Additional personal details
-
-**Course**: Course information
-- Capacity management
-- Active/inactive status
-
-**Enrollment**: Student-Course relationship
-- Status tracking (ACTIVE, COMPLETED, DROPPED)
-- Prevents duplicate enrollments
-
-**AuditLog**: Administrative action tracking
-- User, action, entity details
-- Timestamp and IP tracking
-
-## 🎨 UI/UX Features
-
-- **Responsive Design**: Mobile-first approach
-- **Modern Aesthetics**: Gradient backgrounds, rounded corners
-- **Accessible Components**: Using Radix UI primitives
-- **Loading States**: Proper loading indicators
-- **Error Handling**: User-friendly error messages
-- **Form Validation**: Real-time client-side validation
-
-## 📈 Future Enhancements
-
-- [ ] Email verification for registration
-- [ ] Password reset functionality
-- [ ] Multi-factor authentication (MFA)
-- [ ] Advanced reporting and analytics
-- [ ] File upload for profile pictures
-- [ ] Grade management system
-- [ ] Notification system
-- [ ] API rate limiting
-- [ ] Advanced search and filtering
-
-## 🤝 Contributing
-
-This is an academic project. Contributions are not currently accepted.
-
-## 📄 License
-
-This project is developed for educational purposes as part of a Secure Software Engineering course.
-
-## 👨‍💻 Developer
-
-Developed as a secure software engineering project demonstrating:
-- Secure authentication and authorization
-- OWASP Top 10 vulnerability prevention
-- Clean architecture and code organization
-- Modern web development best practices
-- Comprehensive security testing
-
-## 📚 References
-
-- OWASP Secure Coding Practices
-- Next.js Security Documentation
-- Prisma Security Best Practices
-- NextAuth.js Documentation
-- NIST Password Guidelines
 
 ---
 
-**Note**: This application is designed for educational purposes and demonstrates security best practices. Always conduct thorough security audits before deploying to production.
+## 🚀 Setup and Installation Instructions
+
+### Prerequisites
+- **Node.js** 20+ 
+- **pnpm** 10+ (Package manager)
+- **PostgreSQL** (Neon serverless or local instance)
+- **Git**
+
+### Step 1: Clone Repository
+```bash
+git clone https://github.com/durga79/university-portal.git
+cd university-portal
+```
+
+### Step 2: Install Dependencies
+```bash
+pnpm install
+```
+
+### Step 3: Configure Environment Variables
+Create a `.env` file in the root directory:
+
+```env
+# Database (Neon PostgreSQL)
+DATABASE_URL="postgresql://user:password@host/dbname?sslmode=require"
+
+# NextAuth.js
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-secret-key-here
+
+# Environment
+NODE_ENV=development
+```
+
+**Generate NEXTAUTH_SECRET:**
+```bash
+openssl rand -base64 32
+```
+
+### Step 4: Initialize Database
+```bash
+# Generate Prisma Client
+pnpm prisma generate
+
+# Run migrations
+pnpm prisma db push
+
+# Seed first admin user
+pnpm db:seed
+```
+
+**First Admin Credentials:**
+- Email: `admin@university.edu`
+- Password: `Admin@123`
+
+⚠️ **Change this password after first login!**
+
+### Step 5: Run Development Server
+```bash
+pnpm dev
+```
+
+Application will be available at `http://localhost:3000`
+
+### Step 6: Run Tests
+```bash
+# SAST (Static Application Security Testing)
+pnpm test:security
+
+# Functional Tests
+pnpm test:functional
+
+# All Tests
+pnpm test
+```
+
+---
+
+## 📖 Usage Guidelines
+
+### For Students
+
+#### 1. **Register Account**
+- Navigate to `/register`
+- Fill in Name, Email, Password
+- Account is automatically created as STUDENT role
+- Redirected to login
+
+#### 2. **Login**
+- Go to `/login`
+- Enter email and password
+- Access student dashboard
+
+#### 3. **Enroll in Courses**
+- Navigate to "Courses" in navbar
+- Browse available courses
+- Click "Enroll" on desired courses
+- View enrolled courses in dashboard
+
+#### 4. **View Attendance**
+- Go to "Attendance" in navbar
+- See attendance percentage per course
+- Red alert if below 75%
+
+#### 5. **Access Course Materials**
+- Go to "Courses" → Select a course
+- Click "View Materials"
+- Download PDFs, slides, videos
+
+#### 6. **Edit Profile**
+- Click "Profile" in navbar
+- Update personal information
+- Change password
+- Upload profile picture
+
+### For Administrators
+
+#### 1. **First Login**
+```
+Email: admin@university.edu
+Password: Admin@123
+```
+
+#### 2. **Create Users**
+- Go to "Users" in navbar
+- Fill the form (Name, Email, Password, Role)
+- Can create both Students and Admins
+- User receives credentials to login
+
+#### 3. **Manage Courses**
+- Navigate to "Courses"
+- Create new courses with details
+- Set capacity, credits, schedule
+- Manage enrollments
+
+#### 4. **Mark Attendance**
+- Go to course details page
+- Select date from calendar
+- Mark each student (Present/Late/Absent)
+- Click "Save Attendance"
+
+#### 5. **Upload Course Materials**
+- Go to course details
+- Click "Course Materials"
+- Upload files (max 2MB)
+- Organize by week/module
+
+#### 6. **Post Announcements**
+- Navigate to "Announcements"
+- Create announcement with priority
+- Assign to specific course or all
+- Students see on dashboard
+
+#### 7. **Bulk Import Students**
+- Go to "Bulk Operations"
+- Download CSV template
+- Fill with student data
+- Upload CSV file
+
+---
+
+## 🛡️ Security Improvements Summary
+
+### Vulnerabilities Addressed
+
+| Vulnerability | Mitigation Strategy | Implementation |
+|---------------|---------------------|----------------|
+| **SQL Injection** | Parameterized queries via Prisma ORM | All database queries use Prisma's type-safe API |
+| **XSS** | Output escaping + CSP | React auto-escaping, Content-Security-Policy headers |
+| **CSRF** | SameSite cookies + Next.js protection | Built-in CSRF tokens, SameSite=Lax cookies |
+| **Broken Authentication** | Secure password hashing + JWT | bcrypt (12 rounds), httpOnly JWT tokens |
+| **Sensitive Data Exposure** | Environment variables + HTTPS | Secrets in .env, production uses HTTPS |
+| **Broken Access Control** | RBAC + middleware | Role checks on every protected route |
+| **Security Misconfiguration** | Secure headers + CSP | Helmet.js equivalent security headers |
+| **Insufficient Logging** | Audit logging | All admin actions logged to database |
+| **Insecure Deserialization** | JSON validation | Zod schema validation on all inputs |
+| **Using Components with Known Vulnerabilities** | Dependency scanning | Regular `pnpm audit` checks |
+
+### OWASP Top 10 Coverage
+
+✅ **A01:2021 – Broken Access Control**: Role-based middleware, session validation  
+✅ **A02:2021 – Cryptographic Failures**: bcrypt hashing, secure session storage  
+✅ **A03:2021 – Injection**: Prisma ORM, input validation  
+✅ **A04:2021 – Insecure Design**: Threat modeling, secure architecture  
+✅ **A05:2021 – Security Misconfiguration**: Secure defaults, CSP headers  
+✅ **A06:2021 – Vulnerable Components**: Dependency audits, updates  
+✅ **A07:2021 – Authentication Failures**: Strong passwords, account lockout  
+✅ **A08:2021 – Software and Data Integrity**: Input validation, audit logs  
+✅ **A09:2021 – Logging Failures**: Comprehensive audit logging  
+✅ **A10:2021 – SSRF**: No external URL fetching from user input  
+
+---
+
+## 🧪 Testing Process
+
+### 1. Static Application Security Testing (SAST)
+
+**Tools Used:**
+- **ESLint Security Plugin** - Static code analysis
+- **npm audit / pnpm audit** - Dependency vulnerability scanning
+- **Prisma Studio** - Database security review
+
+**Key Findings:**
+- ✅ No high-severity vulnerabilities in dependencies
+- ✅ All user inputs validated with Zod schemas
+- ✅ No hardcoded secrets in codebase
+- ✅ Secure configuration verified
+
+### 2. Functional Security Testing
+
+#### Test Case 1: SQL Injection Prevention
+**Objective**: Verify application is protected against SQL injection  
+**Steps**:
+1. Attempt to login with `' OR '1'='1` as password
+2. Try injecting SQL in search fields
+3. Test course enrollment with malicious input
+
+**Result**: ✅ All attempts blocked by Prisma ORM parameterization
+
+#### Test Case 2: Authentication & Authorization
+**Objective**: Verify role-based access control  
+**Steps**:
+1. Student attempts to access `/admin/users`
+2. Unauthenticated user tries to access `/student/dashboard`
+3. Admin tries to edit another admin's profile
+
+**Result**: ✅ All unauthorized access attempts redirected to `/unauthorized`
+
+#### Test Case 3: XSS Prevention
+**Objective**: Verify protection against cross-site scripting  
+**Steps**:
+1. Inject `<script>alert('XSS')</script>` in announcement content
+2. Add `<img src=x onerror=alert(1)>` to student name
+3. Test with various XSS payloads
+
+**Result**: ✅ All scripts escaped and rendered as text
+
+### 3. Manual Penetration Testing
+
+**Tests Performed:**
+- ✅ Password reset flow security
+- ✅ Session fixation attacks
+- ✅ CSRF token validation
+- ✅ File upload restrictions
+- ✅ Brute force protection
+
+**Results**: No critical vulnerabilities found
+
+---
+
+## 📊 Security Requirements Completion
+
+| Requirement ID | Requirement | Status | Completion |
+|----------------|-------------|--------|------------|
+| SEC-001 | Input validation for all forms | ✅ Completed | 100% |
+| SEC-002 | Password hashing with bcrypt | ✅ Completed | 100% |
+| SEC-003 | Role-based access control | ✅ Completed | 100% |
+| SEC-004 | SQL injection prevention | ✅ Completed | 100% |
+| SEC-005 | XSS prevention | ✅ Completed | 100% |
+| SEC-006 | CSRF protection | ✅ Completed | 100% |
+| SEC-007 | Secure session management | ✅ Completed | 100% |
+| SEC-008 | Audit logging | ✅ Completed | 100% |
+| SEC-009 | Rate limiting | ✅ Completed | 100% |
+| SEC-010 | Secure error handling | ✅ Completed | 100% |
+| SEC-011 | File upload validation | ✅ Completed | 100% |
+| SEC-012 | Account lockout mechanism | ✅ Completed | 100% |
+| SEC-013 | Remove public admin registration | ✅ Completed | 100% |
+| SEC-014 | Environment variable protection | ✅ Completed | 100% |
+| SEC-015 | HTTPS enforcement (production) | ✅ Completed | 100% |
+
+---
+
+## 🔗 Contributions and References
+
+### Technology Stack
+
+- **Next.js 16** - React framework (Vercel, 2024)
+- **React 19** - UI library (Meta, 2024)
+- **TypeScript 5** - Type safety (Microsoft, 2024)
+- **Prisma ORM 5** - Database toolkit (Prisma Labs, 2024)
+- **NextAuth.js 4** - Authentication (NextAuth.js, 2024)
+- **Tailwind CSS 3** - Utility-first CSS (Tailwind Labs, 2024)
+- **shadcn/ui** - Component library (shadcn, 2024)
+- **Zod 4** - Schema validation (Colin McDonnell, 2024)
+- **bcryptjs** - Password hashing (dcodeIO, 2024)
+- **Neon PostgreSQL** - Serverless database (Neon, 2024)
+
+### References
+
+1. OWASP Top 10 (2021) - https://owasp.org/www-project-top-ten/
+2. Next.js Security Best Practices - https://nextjs.org/docs/app/building-your-application/security
+3. Prisma Security Guide - https://www.prisma.io/docs/guides/security
+4. NextAuth.js Documentation - https://next-auth.js.org/
+5. NIST Password Guidelines - https://pages.nist.gov/800-63-3/
+
+### License
+
+This project is developed for educational purposes as part of a university assignment.
+
+---
+
+## 👨‍💻 Author
+
+**Student Name**: [Your Name]  
+**Student ID**: [Your ID]  
+**Institution**: National College of Ireland  
+**Course**: Secure Software Development  
+**Project**: Atlas University Student Portal
+
+---
+
+## 📝 Notes
+
+- This application is designed with security as a primary concern
+- All passwords are hashed using bcrypt before storage
+- Environment variables must be configured before deployment
+- Regular security audits and updates are recommended
+- For production deployment, enable HTTPS and update NEXTAUTH_URL
+
+---
+
+**🎉 Atlas University Student Portal - Secure by Design**
