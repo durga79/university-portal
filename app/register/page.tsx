@@ -11,8 +11,8 @@ export default function RegisterPage() {
             <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <GraduationCap className="w-8 h-8 text-blue-600" />
               <div>
-                <h1 className="font-bold text-lg text-gray-900">University Portal</h1>
-                <p className="text-xs text-gray-500">Student Information System</p>
+                <h1 className="font-bold text-lg text-gray-900">Atlas University</h1>
+                <p className="text-xs text-gray-500">Student Portal</p>
               </div>
             </Link>
             <Link 

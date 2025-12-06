@@ -1,10 +1,19 @@
 import { NextResponse } from 'next/server'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { registerSchema } from '@/lib/validators'
-import bcrypt from 'bcryptjs'
+import * as bcrypt from 'bcryptjs'
+import { createAuditLog } from '@/lib/audit'
 
 export async function POST(request: Request) {
   try {
+    const session = await getServerSession(authOptions)
+
+    if (!session || session.user.role !== 'ADMIN') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
     const body = await request.json()
     const validatedFields = registerSchema.safeParse(body)
 
@@ -16,13 +25,6 @@ export async function POST(request: Request) {
     }
 
     const { name, email, password, role } = validatedFields.data
-
-    if (role === 'ADMIN') {
-      return NextResponse.json(
-        { error: 'Admin accounts cannot be created through public registration. Contact an administrator.' },
-        { status: 403 }
-      )
-    }
 
     const existingUser = await prisma.user.findUnique({
       where: { email },
@@ -53,27 +55,30 @@ export async function POST(request: Request) {
       },
     })
 
+    await createAuditLog(
+      session.user.id,
+      'CREATE',
+      'USER',
+      user.id,
+      `Created new ${role} account for ${email}`
+    )
+
     return NextResponse.json(
-      { 
-        message: 'User registered successfully',
+      {
+        message: 'User created successfully',
         user: {
           id: user.id,
           email: user.email,
           name: user.name,
           role: user.role,
-        }
+        },
       },
       { status: 201 }
     )
   } catch (error) {
-    console.error('Registration error:', error)
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    console.error('User creation error:', error)
     return NextResponse.json(
-      { 
-        error: 'An error occurred during registration',
-        details: errorMessage,
-        stack: process.env.NODE_ENV === 'development' ? (error instanceof Error ? error.stack : undefined) : undefined
-      },
+      { error: 'Failed to create user' },
       { status: 500 }
     )
   }

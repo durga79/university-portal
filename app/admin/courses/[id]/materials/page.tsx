@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import { Navbar } from '@/components/layout/navbar'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -23,9 +23,11 @@ interface CourseMaterial {
   createdAt: string
 }
 
-export default function CourseMaterialsPage({ params }: { params: { id: string } }) {
+export default function CourseMaterialsPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
+  const params = useParams()
+  const courseId = params.id as string
   const [materials, setMaterials] = useState<CourseMaterial[]>([])
   const [courseName, setCourseName] = useState('')
   const [isLoading, setIsLoading] = useState(true)
@@ -45,7 +47,7 @@ export default function CourseMaterialsPage({ params }: { params: { id: string }
 
   const fetchMaterials = async () => {
     try {
-      const res = await fetch(`/api/admin/courses/${params.id}/materials`)
+      const res = await fetch(`/api/admin/courses/${courseId}/materials`)
       if (res.ok) {
         const data = await res.json()
         setMaterials(data.materials)
@@ -69,7 +71,7 @@ export default function CourseMaterialsPage({ params }: { params: { id: string }
       reader.readAsDataURL(formData.file)
       
       reader.onload = async () => {
-        const res = await fetch(`/api/admin/courses/${params.id}/materials`, {
+        const res = await fetch(`/api/admin/courses/${courseId}/materials`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -111,7 +113,7 @@ export default function CourseMaterialsPage({ params }: { params: { id: string }
     if (!confirm('Are you sure you want to delete this material?')) return
 
     try {
-      const res = await fetch(`/api/admin/courses/${params.id}/materials/${id}`, {
+      const res = await fetch(`/api/admin/courses/${courseId}/materials/${id}`, {
         method: 'DELETE',
       })
 
@@ -145,7 +147,7 @@ export default function CourseMaterialsPage({ params }: { params: { id: string }
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <Link
-            href={`/admin/courses/${params.id}`}
+            href={`/admin/courses/${courseId}`}
             className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 mb-4"
           >
             <ArrowLeft className="h-4 w-4 mr-1" />
@@ -298,7 +300,7 @@ export default function CourseMaterialsPage({ params }: { params: { id: string }
                     </div>
                     <div className="flex space-x-2">
                       <a
-                        href={`/api/admin/courses/${params.id}/materials/${material.id}/download`}
+                        href={`/api/admin/courses/${courseId}/materials/${material.id}/download`}
                         download
                         className="inline-flex items-center px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm"
                       >

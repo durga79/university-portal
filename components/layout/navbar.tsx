@@ -22,10 +22,10 @@ export function Navbar({ user }: NavbarProps) {
           <div className="flex items-center space-x-8">
             <Link href="/dashboard" className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">SMS</span>
+                <span className="text-white font-bold text-sm">AU</span>
               </div>
               <span className="font-bold text-xl text-gray-900">
-                Student Management
+                Atlas University
               </span>
             </Link>
             
@@ -54,6 +54,12 @@ export function Navbar({ user }: NavbarProps) {
                   className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
                 >
                   Announcements
+                </Link>
+                <Link
+                  href="/admin/users"
+                  className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Users
                 </Link>
                 <Link
                   href="/admin/bulk-operations"

@@ -17,7 +17,6 @@ export function RegisterForm() {
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'STUDENT' as 'ADMIN' | 'STUDENT',
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -41,7 +40,7 @@ export function RegisterForm() {
           name: formData.name,
           email: formData.email,
           password: formData.password,
-          role: formData.role,
+          role: 'STUDENT',
         }),
       })
 
@@ -161,22 +160,6 @@ export function RegisterForm() {
           disabled={isLoading}
           className="w-full h-11 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors disabled:bg-gray-50"
         />
-      </div>
-
-      <div className="space-y-2">
-        <label htmlFor="role" className="block text-sm font-medium text-gray-700">
-          Account Type
-        </label>
-        <select
-          id="role"
-          className="w-full h-11 px-4 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors disabled:opacity-50"
-          value={formData.role}
-          onChange={(e) => setFormData({ ...formData, role: e.target.value as 'ADMIN' | 'STUDENT' })}
-          disabled={isLoading}
-        >
-          <option value="STUDENT">Student</option>
-          <option value="ADMIN">Administrator</option>
-        </select>
       </div>
 
       <button 
