@@ -6,12 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "eslint .",
+    "lint:security": "eslint . --ext .ts,.tsx --format=stylish",
     "db:seed": "tsx prisma/seed.ts",
     "test": "echo '✅ All security tests passed. See tests/ directory for test files.'",
     "test:security": "echo '✅ SAST complete: SQL Injection, XSS, Auth tests verified'",
     "test:functional": "echo '✅ Functional tests: Authentication, Authorization, Input Validation verified'",
-    "security:audit": "pnpm audit --audit-level=moderate"
+    "security:audit": "pnpm audit --audit-level=moderate",
+    "sast": "pnpm run lint:security && pnpm run security:audit"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -46,6 +48,7 @@
     "autoprefixer": "^10.4.22",
     "eslint": "^9",
     "eslint-config-next": "16.0.7",
+    "eslint-plugin-security": "^3.0.1",
     "postcss": "^8.5.6",
     "prisma": "^5.22.0",
     "tailwindcss": "^3.4.18",

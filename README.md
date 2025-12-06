@@ -154,18 +154,14 @@ atlas-university-portal/
 - **PostgreSQL** (Neon serverless or local instance)
 - **Git**
 
-### Step 1: Clone Repository
-```bash
-git clone https://github.com/durga79/university-portal.git
-cd university-portal
-```
 
-### Step 2: Install Dependencies
+
+### Step 1: Install Dependencies
 ```bash
 pnpm install
 ```
 
-### Step 3: Configure Environment Variables
+### Step 2: Configure Environment Variables
 Create a `.env` file in the root directory:
 
 ```env
@@ -185,7 +181,7 @@ NODE_ENV=development
 openssl rand -base64 32
 ```
 
-### Step 4: Initialize Database
+### Step 3: Initialize Database
 ```bash
 # Generate Prisma Client
 pnpm prisma generate
@@ -203,14 +199,14 @@ pnpm db:seed
 
 ⚠️ **Change this password after first login!**
 
-### Step 5: Run Development Server
+### Step 3: Run Development Server
 ```bash
 pnpm dev
 ```
 
 Application will be available at `http://localhost:3000`
 
-### Step 6: Run Tests
+### Step 5: Run Tests
 ```bash
 # SAST (Static Application Security Testing)
 pnpm test:security

@@ -58,8 +58,9 @@ export default function ProfileEditForm({ user, profile }: ProfileEditFormProps)
 
       setSuccess('Profile updated successfully!')
       router.refresh()
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred'
+      setError(errorMessage)
     } finally {
       setIsSubmitting(false)
     }

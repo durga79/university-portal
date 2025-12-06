@@ -113,9 +113,10 @@ export async function POST(request: Request) {
         })
 
         successCount++
-      } catch (error: any) {
+      } catch (error: unknown) {
         failedCount++
-        errors.push(error.message)
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+        errors.push(errorMessage)
       }
     }
 
